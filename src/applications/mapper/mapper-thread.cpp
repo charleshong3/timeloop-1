@@ -744,8 +744,8 @@ void MapperThread::PrintStats(model::Topology& topology, EvaluationResult& resul
     // std::cout << "Utilization: " << result.stats.utilization << std::endl;
     std::cout << "Cycles: " << result.stats.cycles << std::endl;
     std::cout << "Energy: " << result.stats.energy / 1000000 << " uJ" << std::endl;
-    // std::cout << "EDP(J*cycle): " << std::scientific << float(result.stats.cycles) * result.stats.energy / 1e12 << std::fixed << std::endl;
-    // std::cout << "Area: " << result.stats.area / 1000000 << " mm^2" << std::endl;
+    std::cout << "EDP(J*cycle): " << std::scientific << float(result.stats.cycles) * result.stats.energy / 1e12 << std::fixed << std::endl;
+    std::cout << "Area: " << result.stats.area / 1000000 << " mm^2" << std::endl;
     // std::cout << std::endl;
     std::cout << "=== Mapping ===" << std::endl;
     std::cout << result.mapping.PrintCompact() << std::endl; 
