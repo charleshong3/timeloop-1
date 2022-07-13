@@ -567,20 +567,20 @@ void MapperThread::Run()
       mutex_->lock();
       if (is_sparse_topology)
       {      
-        log_stream_ << "[" << std::setw(3) << thread_id_ << "]" 
-                  << " Utilization = " << std::setw(4) << std::fixed << std::setprecision(2) << stats.utilization 
-                  << " | pJ/Algorithmic-Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.algorithmic_computes
-                  << " | pJ/Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.actual_computes
-                  << " | " << mapping.PrintCompact()
-                  << std::endl;
+        // log_stream_ << "[" << std::setw(3) << thread_id_ << "]" 
+        //           << " Utilization = " << std::setw(4) << std::fixed << std::setprecision(2) << stats.utilization 
+        //           << " | pJ/Algorithmic-Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.algorithmic_computes
+        //           << " | pJ/Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.actual_computes
+        //           << " | " << mapping.PrintCompact()
+        //           << std::endl;
       }
       else
       {
-        log_stream_ << "[" << std::setw(3) << thread_id_ << "]" 
-                  << " Utilization = " << std::setw(4) << std::fixed << std::setprecision(2) << stats.utilization 
-                  << " | pJ/Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.actual_computes
-                  << " | " << mapping.PrintCompact()
-                  << std::endl;
+        // log_stream_ << "[" << std::setw(3) << thread_id_ << "]" 
+        //           << " Utilization = " << std::setw(4) << std::fixed << std::setprecision(2) << stats.utilization 
+        //           << " | pJ/Compute = " << std::setw(4) << std::fixed << PRINTFLOAT_PRECISION << stats.energy / stats.actual_computes
+        //           << " | " << mapping.PrintCompact()
+        //           << std::endl;
       }
       mutex_->unlock();
     }
@@ -647,23 +647,22 @@ void MapperThread::PrintStats(model::Topology& topology, EvaluationResult& resul
   if (result.valid) {
     std::cout << "---------------------------" << std::endl;
     std::string indent = "    ";
-    std::cout << "=== Buffer Utilization ===" << std::endl;
+    // std::cout << "=== Buffer Utilization ===" << std::endl;
 
     for (unsigned storage_level_id = 0; storage_level_id < topology.NumStorageLevels(); storage_level_id++)
     {
       unsigned inv_storage_level = topology.NumStorageLevels() - 1 - storage_level_id;
       std::shared_ptr<model::BufferLevel> buffer_level = topology.GetStorageLevel(inv_storage_level);
-      std::cout << buffer_level->Name() << ":";
+      // std::cout << buffer_level->Name() << ":";
       for (unsigned pvi = 0; pvi < problem::GetShape()->NumDataSpaces; pvi++)
-      {       
-        auto pv = problem::Shape::DataSpaceID(pvi);
-        auto utilized_instances = result.stats.utilized_instances.at(inv_storage_level).at(pv);
-        auto utilized_capacity = result.stats.utilized_capacities.at(inv_storage_level).at(pv) * utilized_instances; 
-        std::cout << " " << utilized_capacity;
+      {
+        // auto pv = problem::Shape::DataSpaceID(pvi);
+        // auto utilized_capacity = result.stats.utilized_capacities.at(inv_storage_level).at(pv); 
+        // std::cout << " " << utilized_capacity;
       }
-      std::cout << std::endl;
+      // std::cout << std::endl;
     }
-    std::cout << "=== Operational Intensity ===" << std::endl;
+    // std::cout << "=== Operational Intensity ===" << std::endl;
 
     std::uint64_t total_min_traffic = 0;
     std::uint64_t total_output_size = 0;
@@ -693,21 +692,21 @@ void MapperThread::PrintStats(model::Topology& topology, EvaluationResult& resul
     // std::cout <<  "total_output_size " << total_output_size << std::endl;
 
     // out << indent << std::left << std::setw(70) << "Total elementwise ops";
-    uint64_t total_elementwise_ops = result.stats.actual_computes;
+    // uint64_t total_elementwise_ops = result.stats.actual_computes;
     // out << ": " << total_elementwise_ops << std::endl; 
 
     // out << indent << std::left << std::setw(70) << "Total reduction ops";
-    uint64_t total_reduction_ops = 0;
+    // uint64_t total_reduction_ops = 0;
 
-    if (tiling::gEnableFirstReadElision){
-      total_reduction_ops = result.stats.actual_computes - total_output_size;
-    } else{
-      total_reduction_ops = result.stats.actual_computes;
-    }
+    // if (tiling::gEnableFirstReadElision){
+    //   total_reduction_ops = result.stats.actual_computes - total_output_size;
+    // } else{
+    //   total_reduction_ops = result.stats.actual_computes;
+    // }
     // std::cout << ": " << total_reduction_ops << std::endl;  
-    std::cout << indent << std::left << std::setw(70) << "Total ops";
-    uint64_t total_ops = total_elementwise_ops + total_reduction_ops;
-    std::cout << ": " << total_ops << std::endl;
+    // std::cout << indent << std::left << std::setw(70) << "Total ops";
+    // uint64_t total_ops = total_elementwise_ops + total_reduction_ops;
+    // std::cout << ": " << total_ops << std::endl;  
     // std::cout << indent << std::left << std::setw(70) << "Total memory accesses required";
     // std::cout << ": " << total_min_traffic << std::endl; 
     // unsigned inv_storage_level = topology.NumStorageLevels() - 1;
@@ -721,21 +720,21 @@ void MapperThread::PrintStats(model::Topology& topology, EvaluationResult& resul
     {        
       std::shared_ptr<model::BufferLevel> buffer_level = topology.GetStorageLevel(i);
       // auto stats = buffer_level->GetStats();
-      std::cout << "--- " << buffer_level->Name() << " ---" << std::endl;
+      // std::cout << "--- " << buffer_level->Name() << " ---" << std::endl;
 
       // uint64_t instances = buffer_level->GetSpecs().instances.Get();
       uint64_t total_scalar_access = result.stats.accesses.at(i);
-      float op_per_byte = -1;
+      // float op_per_byte = -1;
 
       if (total_scalar_access > 0)
       {
         // std::cout << indent << std::left << std::setw(70) << "Total accesses";
         // std::cout << ": " << total_scalar_access << std::endl;
-        op_per_byte = float(total_ops) / (buffer_level->GetSpecs().word_bits.Get() * total_scalar_access / 8);
+        // op_per_byte = float(total_ops) / (buffer_level->GetSpecs().word_bits.Get() * total_scalar_access / 8);
         // std::cout << indent << std::left << std::setw(70) << "Op per Byte";
-        std::cout <<  total_scalar_access << " " << op_per_byte << std::endl;
+        // std::cout <<  total_scalar_access << " " << op_per_byte << std::endl;
       } else {  
-          std::cout << "0 -1" << std::endl;
+          // std::cout << "0 -1" << std::endl;
       }
     }         
     std::cout << "=== Summary ===" << std::endl;
